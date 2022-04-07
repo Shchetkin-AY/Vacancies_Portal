@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Вакансии компании | Джуманджи</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    body {
+      background-color: #F6F2E6;
+    }
+  </style>
+</head>
+{% extends "public/base.html" %}
+
+{% block content %}
+<form method="post">
+{% csrf_token %}
+  <main class="container mt-3 pb-5">
+    <div class="row mt-5">
+      <div class="col-12 col-lg-4">
+        <aside class="pt-3 pb-4 px-4 mb-5 card">
+          <h1 class="h4 pt-2 pb-2">Моя компания</h1>
+          <div class="nav flex-column nav-pills">
+            <a class="nav-link" href="{% url "company_create" %}">1. Информация о&nbsp;компании</a>
+            <a class="nav-link active" href="{% url "company_vacancies" %}">2. Вакансии</a>
+          </div>
+        </aside>
+      </div>
+      <div class="col-12 col-lg-8">
+        <div class="card">
+          <div class="card-body px-4 pb-4 tab-content">
+            <!-- Tab -->
+            <form>
+              <h2 class="h4 pt-2 pb-3">Backend Middle/Senior</h2>
+{#              <p class="alert alert-info" role="alert">Вакансия обновлена</p>#}
+              <form action="/echo" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2 text-dark" for="vacancyTitle">Название вакансии</label>
+                      <input class="form-control" type="text" value="{{ vacancy.title }}" name="title" id="vacancyTitle">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2 text-dark" for="userSpecialization">Специализация</label>
+                      <select class="custom-select mr-sm-2" name="specialty" id="userSpecialization">
+                        <option value="2" name="specialty" >Backend разработка</option>
+                        <option value="1" name="specialty" >Frontend разработка</option>
+                        <option value="7" name="specialty" >Project manager</option>
+                        <option value="3" name="specialty" >Геймдев</option>
+                          <option value="4" name="specialty" >Девопс</option>
+                          <option value="5" name="specialty" >Дизайн</option>
+                          <option value="6" name="specialty" >Продукт</option>
+                          <option value="8" name="specialty" >Тестирование</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2 text-dark" for="vacancySalaryMin">Зарплата от</label>
+                      <input class="form-control" type="text" value="{{ vacancy.salary_min }}" name="salary_min" id="vacancySalaryMin">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2" for="vacancySalaryMax">Зарплата до</label>
+                      <input class="form-control" type="text" value="{{ vacancy.salary_max }}" name="salary_max" id="vacancySalaryMax">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group pb-2">
+                  <label class="mb-2 text-dark" for="vacancySkills">Требуемые навыки</label>
+                  <textarea class="form-control" rows="3" id="vacancySkills" name="skills" style="color:#000;">{{ vacancy.skills }}</textarea>
+                </div>
+                <div class="form-group pb-2">
+                  <label class="mb-2 text-dark" for="vacancyDescription">Описание вакансии</label>
+                  <textarea class="form-control" rows="13" id="vacancyDescription" name="description" style="color:#000;">{{ vacancy.description }}</textarea>
+                </div>
+                <div class="form-group">
+                  <input type="submit" class="btn btn-info" value="Сохранить">
+                </div>
+              </form>
+
+              <!-- END Vacancy info -->
+
+              <!-- Applications -->
+              {% for app in application_list %}
+              <h2 class="h4 pt-2 pb-3">Отклики - {{ count.count }}</h2>
+              <!-- Application 1 -->
+
+              <div class="card mt-3">
+                <div class="card-body px-4">
+                  <p class="mb-1 font-weight-bold">{{ app.written_username }}</p>
+                  <p class="mb-2"><a href="tel:+79002842324" class="text-dark">{{ app.written_phone}}</a></p>
+                  <p class="mb-1">{{ app.written_cover_letter }}</p>
+                </div>
+              </div>
+              <!-- END Application 1 -->
+              {% endfor %}
+              <!-- END Applications -->
+            </section>
+            <!-- END Tab -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</form>
+{% endblock %}
